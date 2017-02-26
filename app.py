@@ -54,7 +54,8 @@ def webhook():
     return "ok", 200
 
 def newMsg(recipient_id, message_text):
-    send_message(recipient_id, "got it, thanks!")
+    #session.cwd("//"+serverCatalog()+"//")
+    send_message(recipient_id, "//"+serverCatalog())
     with open("test.txt", "a") as myfile:
         myfile.write(recipient_id + ":" +message_text + "\n")
 
