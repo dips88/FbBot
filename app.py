@@ -29,7 +29,7 @@ def msgToUser(data):
     
 @app.route('/check', methods=['GET'])
 def check():
-    print("hi")
+    return "hi"
     #check for txt file data and return
 
     
