@@ -8,6 +8,9 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
+def splitData(data):
+    return data[:data.index('_')],data[data.index('_')+1:]
+    
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -19,7 +22,17 @@ def verify():
 
     return "Hello world", 200
 
+@app.route('/data/<data>', methods=['GET'])
+def msgToUser(data):
+    user,msg = splitData(data)
+    send_message(user, msg)
+    
+@app.route('/check', methods=['GET'])
+def check():
+    print("hi")
+    #check for txt file data and return
 
+    
 @app.route('/', methods=['POST'])
 def webhook():
 
@@ -54,11 +67,12 @@ def webhook():
     return "ok", 200
 
 def newMsg(recipient_id, message_text):
-    #session.cwd("//"+serverCatalog()+"//")
+    #add to txt file
     send_message(recipient_id, message_text)
-    file = open("test.txt", "a")
-    file.write(message_text)
-    file.close()
+    
+    #file = open("test.txt", "a")
+    #file.write(message_text)
+    #file.close()
     #with open("test.txt", "a") as myfile:
     #   myfile.write(recipient_id + ":" +message_text + "\n")
 
