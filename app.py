@@ -54,8 +54,8 @@ def webhook():
 
 def newMsg(recipient_id, message_text):
     send_message(recipient_id, "got it, thanks!")
-    with open("test.txt", "a") as myfile:
-        myfile.write(recipient_id + ":" +message_text + "\n")
+    #with open("test.txt", "a") as myfile:
+    #    myfile.write(recipient_id + ":" +message_text + "\n")
 
 def send_message(recipient_id, message_text):
 
