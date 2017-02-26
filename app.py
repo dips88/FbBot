@@ -1,11 +1,36 @@
 import os
 import sys
 import json
-
+from github import Github
+import base64
 import requests
 from flask import Flask, request
 
 app = Flask(__name__)
+
+
+
+
+def push(msg):
+    g = Github("8a05ca4e24f5f756bc63d652ab672798327b44ad")
+    repo = g.get_user().get_repo("FbBot")
+    value = repo.get_file_contents('/test.txt')
+    user1 = value.content
+    str1 = base64.b64decode(user1).decode("utf-8")
+    update_msg=str1+"\n"+msg
+    repo.update_file("/test.txt", "init commit", update_msg,value.sha)
+    
+def pull():
+    g = Github("8a05ca4e24f5f756bc63d652ab672798327b44ad")
+    repo = g.get_user().get_repo("FbBot")
+    value = repo.get_file_contents('/test.txt')
+    user1 = value.content
+    str1 = base64.b64decode(user1).decode("utf-8")
+    repo.update_file("/test.txt", "init commit", "",value.sha)
+    return str1;
+
+
+
 
 
 def splitData(data):
@@ -29,7 +54,7 @@ def msgToUser(data):
     
 @app.route('/check', methods=['GET'])
 def check():
-    return "hi"
+    return pull()
     #check for txt file data and return
 
     
@@ -69,7 +94,7 @@ def webhook():
 def newMsg(recipient_id, message_text):
     #add to txt file
     send_message(recipient_id, message_text)
-    
+    push(recipient_id+"_"+message_text)
     #file = open("test.txt", "a")
     #file.write(message_text)
     #file.close()
